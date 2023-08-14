@@ -1,0 +1,90 @@
+#! /bin/zsh
+
+# █▀▀ █░█ █▄░█ █▀▀ ▀█▀ █ █▀█ █▄░█ █▀
+# █▀░ █▄█ █░▀█ █▄▄ ░█░ █ █▄█ █░▀█ ▄█
+
+
+# ▄▀█ █▄░█ █▀ █ █▄▄ █░░ █▀▀
+# █▀█ █░▀█ ▄█ █ █▄█ █▄▄ ██▄
+
+# Run playbooks faster
+function ansible-book {
+  PASS="/mnt/Raid1/filesystem/Backups/Kee/Passwordz.kdbx"
+  NAME="Ansible"
+  VAULT="--vault-pass-file=/bin/cat"
+
+  eval "$(ssh-agent)"
+  ssh-add ~/.ssh/id_ed25519
+  keepassxc-cli show -s -a password "$PASS" "$NAME" | xargs echo | ansible-playbook "$VAULT" "$1"
+}
+
+# Function to move up directories
+function up {
+
+  for ((i=1; i <= $1; i+=1))
+  do
+    cd ../
+  done
+}
+
+function mkcd {
+
+  mkdir -p "$1"
+  cd "$1"
+}
+
+function pre-commit {
+
+  echo "\n\033[35mChecking Code quality\033[0m"
+  echo "\033[35m----------------------\033[0m\n"
+  
+  if [[ -z "$1" ]]
+  then
+    chk="$PWD"
+  else
+    chk="$1"
+  fi
+
+  # █▄▄ ▄▀█ █▀ █░█
+  # █▄█ █▀█ ▄█ █▀█
+  
+  echo "\033[32mChecking shell scripts files\033[0m"
+  echo "\033[32m----------------------------\033[0m"
+
+  # Auto replace shell scripts with shellharden suggestions 
+  grep -rl "/bin/bash\|/bin/zsh" "$chk" | while read -r file
+  do
+    echo "\033[33m$file\033[0m"
+    shellharden --replace "$file"
+  done
+
+
+  # █▀▀
+  # █▄▄
+  
+  echo "\n\033[32mChecking C files\033[0m"
+  echo "\033[32m----------------\033[0m"
+
+  # Check for common issues
+  cppcheck --quiet "$chk"
+
+ 
+  # Check for common security flaws
+  flawfinder -QDSC "$chk"
+
+  
+  # █▀█ █▄█ ▀█▀ █░█ █▀█ █▄░█
+  # █▀▀ ░█░ ░█░ █▀█ █▄█ █░▀█
+
+  echo "\n\033[32mChecking python files\033[0m"
+  echo "\033[32m---------------------\033[0m"
+
+  # Use pyright to detect common issues
+  pyright "$chk"
+
+  # Use pyflakes to detect common issues
+  pyflakes "$chk"
+
+  echo ""
+
+}

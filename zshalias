@@ -1,0 +1,74 @@
+#! /bin/zsh
+
+###############################################################
+# ███████╗░██████╗██╗░░██╗░█████╗░██╗░░░░░██╗░█████╗░░██████╗ #
+# ╚════██║██╔════╝██║░░██║██╔══██╗██║░░░░░██║██╔══██╗██╔════╝ #
+# ░░███╔═╝╚█████╗░███████║███████║██║░░░░░██║███████║╚█████╗░ #
+# ██╔══╝░░░╚═══██╗██╔══██║██╔══██║██║░░░░░██║██╔══██║░╚═══██╗ #
+# ███████╗██████╔╝██║░░██║██║░░██║███████╗██║██║░░██║██████╔╝ #
+# ╚══════╝╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝╚═╝░░╚═╝╚═════╝░ #
+###############################################################
+
+
+# █▀▄ █ █▀█ █▀▀ █▀▀ ▀█▀ █▀█ █▀█ █ █▀▀ █▀
+# █▄▀ █ █▀▄ ██▄ █▄▄ ░█░ █▄█ █▀▄ █ ██▄ ▄█
+
+# filesystem
+hash -d art="/mnt/Raid1/filesystem/Art"
+hash -d backups="/mnt/Raid1/filesystem/Backups"
+hash -d dev="/mnt/Raid1/filesystem/Dev"
+
+# filesystem Dev
+hash -d ansible="/mnt/Raid1/filesystem/Dev/git/rete-luporum/ansible"
+hash -d docker="/mnt/Raid1/filesystem/Dev/git/rete-luporum/docker"
+hash -d git="/mnt/Raid1/filesystem/Dev/git"
+
+
+# █▀▀ █▀█ █░░ █▀█ █▀█ █▀
+# █▄▄ █▄█ █▄▄ █▄█ █▀▄ ▄█
+
+# Change cat commands over to bat
+alias cat="bat -pp"
+
+# Change diff to color
+alias diff="diff --color=auto"
+
+# Change grep to color
+alias egrep="egrep --color=auto"
+alias fgrep="fgrep --color=auto"
+alias grep="grep --color=auto"
+
+# Change ip to color
+alias ip="ip --color=auto"
+
+# Change ls commands over to exa
+alias ls="exa"
+
+
+# █▄▀ █ ▀█▀ ▀█▀ █▄█
+# █░█ █ ░█░ ░█░ ░█░
+
+# SSH fix
+[ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
+
+# Image preview
+alias icat="kitty +kitten icat"
+
+
+# █▀ █▀█ █▀▀ █░░ █░░ █ █▄░█ █▀▀
+# ▄█ █▀▀ ██▄ █▄▄ █▄▄ █ █░▀█ █▄█
+
+# Common spelling errors
+alias suod="sudo"
+alias l="exa"
+
+# Make a directory and all parent directories with verbosity.
+alias mkdir='mkdir -p -v'
+
+# Prevent mistakes of deleting the wrong file
+alias cp='cp -ip'
+alias mv='mv -i'
+alias rm='rm -i'
+
+# Change zshrc files quickly
+alias reload-zsh="source ~/.zshrc"
